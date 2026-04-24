@@ -32,6 +32,8 @@ install-system: all
 
 install-user: getmonitor
 	mkdir -p $(HOME)/.config/cw/
+	mkdir -p $(HOME)/Documents/wallpapers/
+	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
 	@FILENAME=$$(./getmonitor); \
 	if [ -n "$$FILENAME" ]; then \
     		CONFIG_FILE=$(HOME)/.config/cw/$$(basename "$$FILENAME"); \

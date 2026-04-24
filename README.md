@@ -33,7 +33,7 @@ Now executing
 ```
     make install-user
 ```
-creates a cw folder in ~.config where the information about which monitor has which wallpaper will be stored.
+creates a cw folder in ~.config where the information about which monitor has which wallpaper will be stored as well as a Documents/wallpapers folder where it will store one example Wallpaper.
 
 Now executing
 ```
