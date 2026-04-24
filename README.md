@@ -1,6 +1,6 @@
 # Wall-E
 
-A small Wallpaperprogramm i wrote to have the functionalities i wanted. However i might add some more if i bother to. 
+A small Wallpaperprogramm i wrote to have the functionalities i wanted. However i might add some more in case i bother to. 
 
 The current setup works as follows:
 1. Have a ~Documents/wallpapers directory with some pictures and nothing else than pictures Feh accepts in it.
@@ -54,3 +54,6 @@ Go into the Wall-E directory and run
     make uninstall-user
 ```
 Now everything left to do is to delete the Wall-E folder with its content.
+
+## Sources
+The wallpaper that comes with install is from https://wallpapersafari.com/w/0VpyEC/download
