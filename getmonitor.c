@@ -23,7 +23,7 @@ char* getmonitor(){
 	int mouse[2];
 	int bl[2];
 	int tr[2];
-	FILE *command = popen("xdotool getmouselocation --shell","r");	
+	FILE *command = popen("xdotool getmouselocation --shell","r");      // gets the current mouse location	
 	if(!command){
 		printf("Not able to get mouselocation. Please make sure xdotool is correctly installed.");
 		return NULL;
@@ -40,7 +40,7 @@ char* getmonitor(){
 	}
 	pclose(command);
 
-	command = popen("xrandr", "r");
+	command = popen("xrandr", "r");   				// compares the cursorlocation to the monitor areas
 	if(!command){
 		printf("Not able to get monitor information. Please make sure xrandr is correctly installed.");
 		return NULL;
