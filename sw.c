@@ -7,33 +7,39 @@
 int main(int argc, char *argv[]){
 	if(argc == 1){
 		
-		char monitor[256];
+		char *monitor;
 		char path[512];
 		char wallpaperspath[256];
 		snprintf(wallpaperspath, sizeof(wallpaperspath), "ls %s/Documents/wallpapers/", getenv("HOME"));
-		char monitorpath[256];
 		char betweenpath[256];
 		snprintf(betweenpath, sizeof(betweenpath), "%s/Documents/wallpapers/", getenv("HOME"));
 		char fehcommand[512];
 		snprintf(fehcommand, sizeof(fehcommand), "feh --bg-scale");
 		char buffer[256];
+		char moninfo[256];
 		char *end;
 		int picture = 0;
 		int count = 0;
 		
 
-		snprintf(monitorpath, sizeof(monitorpath), "%s/.config/cw/monitors.txt", getenv("HOME"));
-
-		FILE *getmonitors = fopen(monitorpath, "r");
+		FILE *getmonitors = popen("xrandr --listmonitors", "r");
 		if(!getmonitors){
-			printf("Not able to open %s.\n", monitorpath);
+			printf("ERROR: not able to execute xrandr --listmonitors\n");
 			return 1;
 		}
-		while(fgets(monitor, sizeof(monitor), getmonitors)){
+		while(fgets(moninfo, sizeof(moninfo), getmonitors)){
 
 			count = 0;
-			monitor[strcspn(monitor, "\n")] = 0;	
-			snprintf(path, sizeof(path), "%s/.config/cw/%s.txt", getenv("HOME"), monitor);
+			moninfo[strcspn(moninfo, "\n")] = 0;	
+
+			monitor = strtok(moninfo, " ");
+			if(strcmp(monitor, "Monitors:")==0){
+				continue;
+			}
+			monitor = strtok(NULL, " ");
+			monitor = strtok(NULL, " ");
+			monitor = strtok(NULL, " ");
+			snprintf(path, sizeof(path), "%s/.config/cw/%s", getenv("HOME"), monitor);
 
 			FILE *getpicture = fopen(path, "r");
 			if(!getpicture){
@@ -63,9 +69,11 @@ int main(int argc, char *argv[]){
 			pclose(getfilenames);
 			
 		}
-		fclose(getmonitors);
+		pclose(getmonitors);
 
-		system(fehcommand);
+		snprintf(path, sizeof(path), "%s --no-fehbg", fehcommand);
+
+		system(path);
 
 	}else{
 		printf("No argument expected\n");

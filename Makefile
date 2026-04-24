@@ -1,17 +1,52 @@
-home := ~
+CC ?= gcc
+CFLAGS ?= 
+PREFIX ?= /usr/local
+DESTDIR ?=
+USER_HOME := $(shell echo $HOME)
 
-.PHONY: all
+.PHONY: all clean install-sytem install-user uninstall-system uninstall-user 
 all: sw cw getmonitor
 
-sw: sw.c cw getmonitor.o
-	$(CC) sw.c -o sw
+sw: sw.c
+	$(CC) $(CFLAGS) sw.c -o sw
 
 cw: cw.c getmonitor.o
-	$(CC) cw.c getmonitor.o -o cw
+	$(CC) $(CFLAGS)  cw.c getmonitor.o -o cw
 
 getmonitor.o: getmonitor.c
-	$(CC) -c getmonitor.c -o getmonitor.o
+	$(CC) $(CFLAGS) -c getmonitor.c -o getmonitor.o
 
 getmonitor: getmon.c getmonitor.o
-	$(CC) getmon.c getmonitor.o -o getmonitor
+	$(CC) $(CFLAGS) getmon.c getmonitor.o -o getmonitor
 
+clean:
+	rm getmonitor.o
+	rm getmonitor
+	rm sw
+	rm cw
+
+install-system: all
+	cp getmonitor $(DESTDIR)$(PREFIX)/bin/
+	cp sw $(DESTDIR)$(PREFIX)/bin/
+	cp cw $(DESTDIR)$(PREFIX)/bin/
+
+install-user: getmonitor
+	mkdir -p $(HOME)/.config/cw/
+	@FILENAME=$$(./getmonitor); \
+	if [ -n "$$FILENAME" ]; then \
+    		CONFIG_FILE=$(HOME)/.config/cw/$$(basename "$$FILENAME"); \
+    		if [ ! -f "$$CONFIG_FILE" ]; then \
+        		echo "0" > "$$CONFIG_FILE"; \
+        		echo "Created config: $$CONFIG_FILE"; \
+    		fi; \
+	else \
+    		echo "Warning: getmonitor didn't return a filename, skipping config creation"; \
+	fi
+
+uninstall-system: 
+	rm $(DESTDIR)$(PREFIX)/bin/getmonitor
+	rm $(DESTDIR)$(PREFIX)/bin/sw
+	rm $(DESTDIR)$(PREFIX)/bin/cw
+
+uninstall-user: 
+	rm -rf $(HOME)/.config/cw

@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
 		char *end;
 
 		monitor = getmonitor();
-		snprintf(path, sizeof(path), "%s/.config/cw/%s.txt", getenv("HOME"), monitor);
+		snprintf(path, sizeof(path), "%s/.config/cw/%s", getenv("HOME"), monitor);
 		free(monitor);
 
 		FILE *getcurrentwp = fopen(path, "r");
