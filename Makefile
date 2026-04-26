@@ -34,15 +34,6 @@ install-user: getmonitor
 	mkdir -p $(HOME)/.config/cw/
 	mkdir -p $(HOME)/Documents/wallpapers/
 	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
-	@FILENAME=$$(./getmonitor); \
-	if [ -n "$$FILENAME" ]; then \
-    		CONFIG_FILE=$(HOME)/.config/cw/$$(basename "$$FILENAME"); \
-    		if [ ! -f "$$CONFIG_FILE" ]; then \
-        		echo "0" > "$$CONFIG_FILE"; \
-        		echo "Created config: $$CONFIG_FILE"; \
-    		fi; \
-	else \
-    		echo "Warning: getmonitor didn't return a filename, skipping config creation"; \
 	fi
 
 uninstall-system: 
