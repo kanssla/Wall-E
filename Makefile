@@ -8,16 +8,16 @@ USER_HOME := $(shell echo $HOME)
 all: sw cw getmonitor
 
 sw: sw.c
-	$(CC) $(CFLAGS) sw.c -o sw
+	$(CC) $(CFLAGS) sw.c -o sw -lX11 -lXrandr
 
 cw: cw.c getmonitor.o
-	$(CC) $(CFLAGS)  cw.c getmonitor.o -o cw
+	$(CC) $(CFLAGS)  cw.c getmonitor.o -o cw -lX11 -lXrandr
 
 getmonitor.o: getmonitor.c
-	$(CC) $(CFLAGS) -c getmonitor.c -o getmonitor.o
+	$(CC) $(CFLAGS) -c getmonitor.c -o getmonitor.o -lX11 -lXrandr
 
 getmonitor: getmon.c getmonitor.o
-	$(CC) $(CFLAGS) getmon.c getmonitor.o -o getmonitor
+	$(CC) $(CFLAGS) getmon.c getmonitor.o -o getmonitor -lX11 -lXrandr
 
 clean:
 	rm getmonitor.o
@@ -34,7 +34,6 @@ install-user: getmonitor
 	mkdir -p $(HOME)/.config/cw/
 	mkdir -p $(HOME)/Documents/wallpapers/
 	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
-	fi
 
 uninstall-system: 
 	rm $(DESTDIR)$(PREFIX)/bin/getmonitor

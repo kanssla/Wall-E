@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
 			return 1;
 		}
 
-		FILE *writenewpicture = fopen(path, "w+"); 		// writes the picturevalue to the file
+		FILE *writenewpicture = fopen(path, "w+"); 		// writes the name of the picture to the file
 		if(!writenewpicture){
 			printf("Cannot open/create %s.\n", path);
 			return 1;

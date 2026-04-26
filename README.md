@@ -17,8 +17,7 @@ I personally have a keyboard shortcut for cw so i can move the cursor to the mon
 
 ## Requirements
 - of course you need Feh (and by this all the usual X11 stuff)
-- xrandr
-- xdotool
+- as well as libx11-dev libxrandr-dev
 
 ## Install
 Clone the repository.
