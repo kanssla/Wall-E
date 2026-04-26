@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <dirent.h>
 #include "getmonitor.h"
 
 
@@ -9,13 +10,14 @@ int main(int argc, char *argv[]){
 	if(argc == 1){
 						// Initialization of Variables	
 		int count = 0; 			// used to count through the images in the wallpapers folder
-		int picture = 0; 		// used to store the value which is/will be written into the monitor file
+		char picture[256]; 		// used to store the value which is/will be written into the monitor file
 		bool created = false; 		// used to store whether the file of the monitor has been created yet or not
 		char *monitor; 			// used to get the name of the monitor
 		char path[512]; 		// used to store the path to the monitorfile
 		char wallpaperspath[256]; 	// used to store thee command to get the amount of the wallpapers
-		char buffer[256]; 		// used as a buffer
-		char *end; 			// used because one function needs to return something even thopugh i dont need it
+		char firstpicture[256]; 	// stores the first picture
+		bool next = false;
+		bool first = true;
 
 		monitor = getmonitor(); 							// get the current monitor (see getmonitor.c)
 		snprintf(path, sizeof(path), "%s/.config/cw/%s", getenv("HOME"), monitor); 	// path is the path to its file
@@ -25,43 +27,58 @@ int main(int argc, char *argv[]){
 		if(!getcurrentwp){
 			created = true;
 		}else{
-			while(fgets(buffer, sizeof(buffer), getcurrentwp) != NULL){
-				picture = strtol(buffer, &end, 10);
+			while(fgets(picture, sizeof(picture), getcurrentwp) != NULL){
+				continue;
 			}
 			fclose(getcurrentwp);
 		}
 
-		snprintf(wallpaperspath, sizeof(wallpaperspath), "ls %s/Documents/wallpapers/", getenv("HOME"));
+		snprintf(wallpaperspath, sizeof(wallpaperspath), "%s/Documents/wallpapers/", getenv("HOME"));
 
-		FILE *countwps = popen(wallpaperspath, "r");  				// counts the wallpapers in the wallpaperdirectory
-		if(!countwps){
-			printf("Not able to execute %s.\n", wallpaperspath);
+		DIR *direct;
+		struct dirent *dir;
+		direct = opendir(wallpaperspath);
+		if(direct){
+			while((dir=readdir(direct))!=0){
+				if(strcmp(dir->d_name, ".") == 0 ||strcmp(dir->d_name, "..") == 0 || dir->d_type != DT_REG){
+					continue;
+				}
+				if(first){
+					first = false;
+					snprintf(firstpicture, sizeof(firstpicture), dir->d_name);
+					if(created){
+						break;
+					}
+					created = true;
+				}
+				if(next){
+					snprintf(picture, sizeof(picture),dir->d_name);
+					next = false;
+					break;
+				}
+				if(strcmp(dir->d_name, picture) == 0){
+					next = true;
+					created = false;
+				}
+			}
+			closedir(direct);
+			if(next || created){
+				snprintf(picture, sizeof(picture),firstpicture);
+			}
+		}else{
+			printf("Not able to get files in %s.\n", wallpaperspath);
 			return 1;
 		}
-		if(created){   					// if there hasnt been a file created yet take the pictur with index 0
-			picture = 0;
-		}else{
-			while(fgets(buffer, sizeof(buffer), countwps) != NULL){
-				count += 1;
-			}
-			if(picture + 1 >= count){ 		// sets the picture to be written to the monitor file to the last index +1 (0 if it is bigger than the amount of wallpapers
-				picture = 0;
-			}else{
-				picture += 1;
-			}
-		}
-		pclose(countwps);
 
 		FILE *writenewpicture = fopen(path, "w+"); 		// writes the picturevalue to the file
 		if(!writenewpicture){
-			printf("Cannot open %s.\n", path);
+			printf("Cannot open/create %s.\n", path);
 			return 1;
 		}
-		sprintf(buffer, "%d", picture);
-		fputs(buffer, writenewpicture);
+		fputs(picture, writenewpicture);
 		fclose(writenewpicture);
 		
-		system("sw"); 					// update the currently shown wallpapers from the monitor files
+		system("sw"); 					 //update the currently shown wallpapers from the monitor files
 
 
 
