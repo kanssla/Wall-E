@@ -34,7 +34,6 @@ install-user: getmonitor
 	mkdir -p $(HOME)/.config/cw/
 	mkdir -p $(HOME)/Documents/wallpapers/
 	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
-	fi
 
 uninstall-system: 
 	rm $(DESTDIR)$(PREFIX)/bin/getmonitor
