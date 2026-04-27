@@ -1,13 +1,12 @@
 # Wall-E
 
-A small Wallpaperprogramm i wrote to have the functionalities i wanted. However i might add some more in case i bother to. 
+A small Wallpaperprogramm that changes the wallpaper on the screen your mouse is currently on.  
 
 The current setup works as follows:
-1. Have a ~Documents/wallpapers directory with some pictures and nothing else than pictures Feh accepts in it.
-2. Executing sw in the terminal should set the wallpaper if there exist files for each monitor in ~.config/cw/ which have the name of your monitor and contain a number.
-3. On install (see install) Wall-E should create such a file for the monitor you have installed it in (considering you were using X11 at that moment.
-4. Executing cw in a Monitor of your choice creates such a file as well. 
-5. Now cw changes the wallpapers of the monitor your mouse is in and sw sets them to the last change(sw in .xinitrc f.e. reloads your last setup).
+1. Have a ~Documents/wallpapers directory with some pictures and nothing else than pictures Feh accepts in it (the install script creates one and puts an example image inside).
+2. Executing sw in the terminal should set the wallpaper if there exist files for each monitor in ~.config/cw/ which have the name of your monitor and contain the name of the wallpaper thats currently set.
+3. These files get created on executing cw or sw.
+4. Now cw changes the wallpapers of the monitor your mouse is in and sw sets them to the last change(sw in .xinitrc f.e. reloads your last setup).
 
 tldr:
 - cw changes wallpaper in the monitor your mouse is in
