@@ -66,13 +66,13 @@ int main(int argc, char *argv[]){
 				snprintf(picture, sizeof(picture),firstpicture);
 			}
 		}else{
-			printf("Not able to get files in %s.\n", wallpaperspath);
+			fprintf(stderr, "Not able to get files in %s.\n", wallpaperspath);
 			return 1;
 		}
 
 		FILE *writenewpicture = fopen(path, "w+"); 		// writes the name of the picture to the file
 		if(!writenewpicture){
-			printf("Cannot open/create %s.\n", path);
+			fprintf(stderr, "Cannot open/create %s.\n", path);
 			return 1;
 		}
 		fputs(picture, writenewpicture);
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]){
 
 
 	}else{
-		printf("Too many arguments given\n");
+		fprintf(stderr, "Too many arguments given\n");
 		return 1;
 	}
 

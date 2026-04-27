@@ -20,13 +20,13 @@ int main(int argc, char *argv[]){
 
 		Display *display = XOpenDisplay(NULL);
 		if(!display){
-			printf("Not able to open display!\n");
+			fprintf(stderr, "Not able to open display!\n");
 			return 1;
 		}
 		Window root = DefaultRootWindow(display);
 		XRRScreenResources *screenResources = XRRGetScreenResources(display, root);
 		if(!screenResources){
-			printf("Unable to get screen resources!\n");
+			fprintf(stderr, "Unable to get screen resources!\n");
 			XCloseDisplay(display);
 			return 1;
 		}
@@ -52,13 +52,13 @@ int main(int argc, char *argv[]){
 						closedir(direct);
 						getpicture = fopen(path, "w+");
 						if(!getpicture){
-							printf("Not able to create %s.", path);
+							fprintf(stderr, "Not able to create %s.", path);
 							return 1;
 						}
 						fputs(picture, getpicture);
 						fclose(getpicture);
 					}else{
-						printf("Not found the wallpapersdirectory.\n");
+						fprintf(stderr, "Not found the wallpapersdirectory.\n");
 						return 1;
 					}
 				}else{
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]){
 		XCloseDisplay(display);
 
 	}else{
-		printf("No argument expected\n");
+		fprintf(stderr, "No argument expected\n");
 		return 1;
 	}
 

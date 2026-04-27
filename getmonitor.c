@@ -17,8 +17,6 @@ int inmonitor(int *mouse, int *bl, int *tr){
 char* getmonitor(){
 
 	char buffer[256];
-	char *end;
-	int count;
 	int mouse[2];
 	int bl[2];
 	int tr[2];
@@ -26,7 +24,7 @@ char* getmonitor(){
 
 	Display *display = XOpenDisplay(NULL);
 	if(!display){
-		printf("Unable to open display\ni");
+		fprintf(stderr, "Unable to open display\n");
 		return NULL;
 	}
 
@@ -39,7 +37,7 @@ char* getmonitor(){
 	Bool success = XQueryPointer(display, root, &root_return, &child_return, &mouse[0], &mouse[1], &win_x, &win_y, &mask);
 
 	if(!success){
-		printf("Failed to query pointer position.\n");
+		fprintf(stderr, "Failed to query pointer position.\n");
 		XCloseDisplay(display);
 		return NULL;
 	}
@@ -47,7 +45,7 @@ char* getmonitor(){
 	XRRScreenResources *screenResources = XRRGetScreenResources(display, root);
 
 	if(!screenResources){
-		printf("Unable to get screen resources\n");
+		fprintf(stderr, "Unable to get screen resources\n");
 		XCloseDisplay(display);
 		return NULL;
 	}
@@ -79,6 +77,6 @@ char* getmonitor(){
 	XRRFreeScreenResources(screenResources);
 	XCloseDisplay(display);
 
-	printf("Mouse not to be found.\n");
+	fprintf(stderr, "Mouse not to be found.\n");
 	return NULL;
 }

@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
 		printf("%s\n", monitor);
 		free(monitor);
 	}else{
-		printf("No argument expected\n");
+		fprintf(stderr, "No argument expected.\n");
 		return 1;
 	}
 	return 0;
