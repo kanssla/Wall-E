@@ -2,18 +2,23 @@ CC ?= gcc
 CFLAGS ?= 
 PREFIX ?= /usr/local
 DESTDIR ?=
-USER_HOME := $(shell echo $HOME)
 
-.PHONY: all clean install-sytem install-user uninstall-system uninstall-user 
-all: sw cw getmonitor
+.PHONY: all clean install prereq uninstall
+prereq: config.h
+	mkdir -p $(HOME)/.config/cw/
+	mkdir -p $(HOME)/Documents/wallpapers/
+	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
 
-sw: sw.c
-	$(CC) $(CFLAGS) sw.c -o sw -lX11 -lXrandr
+config.h:
+	echo 'static const char configpath[] = "$(HOME)/.config/cw/";' > config.h
+	echo 'static const char wallpaperspath[] = "$(HOME)/Documents/wallpapers/";' >> config.h
 
-cw: cw.c getmonitor.o
+all: cw getmonitor
+
+cw: cw.c getmonitor.o 
 	$(CC) $(CFLAGS)  cw.c getmonitor.o -o cw -lX11 -lXrandr
 
-getmonitor.o: getmonitor.c
+getmonitor.o: getmonitor.c 
 	$(CC) $(CFLAGS) -c getmonitor.c -o getmonitor.o -lX11 -lXrandr
 
 getmonitor: getmon.c getmonitor.o
@@ -22,23 +27,18 @@ getmonitor: getmon.c getmonitor.o
 clean:
 	rm getmonitor.o
 	rm getmonitor
-	rm sw
 	rm cw
 
-install-system: all
+install: all
+	@if [ ! -f config.h ]; then \
+		echo "Run 'make' as a normal user first"; \
+		exit 1; \
+	fi
 	cp getmonitor $(DESTDIR)$(PREFIX)/bin/
-	cp sw $(DESTDIR)$(PREFIX)/bin/
 	cp cw $(DESTDIR)$(PREFIX)/bin/
 
-install-user: getmonitor
-	mkdir -p $(HOME)/.config/cw/
-	mkdir -p $(HOME)/Documents/wallpapers/
-	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
 
-uninstall-system: 
+uninstall: 
 	rm $(DESTDIR)$(PREFIX)/bin/getmonitor
-	rm $(DESTDIR)$(PREFIX)/bin/sw
 	rm $(DESTDIR)$(PREFIX)/bin/cw
 
-uninstall-user: 
-	rm -rf $(HOME)/.config/cw
