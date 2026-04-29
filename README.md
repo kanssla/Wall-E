@@ -27,11 +27,12 @@ Change directory to the repo.
 ```
     cd Wall-E
 ```
-Now executing
+Now execute
 ```
     make 
 ```
 and optionally edit the config.h.
+
 Now executing
 ```
     sudo make install
