@@ -29,13 +29,12 @@ Change directory to the repo.
 ```
 Now executing
 ```
-    make install-user
+    make 
 ```
-creates a cw folder in ~.config where the information about which monitor has which wallpaper will be stored as well as a Documents/wallpapers folder where it will store one example Wallpaper.
-
+and optionally edit the config.h.
 Now executing
 ```
-    sudo make install-system
+    sudo make install
 ```
 installs the binaries to /usr/local/bin.
 
@@ -48,8 +47,7 @@ to remove the binaries from the current folder.
 ## Uninstall
 Go into the Wall-E directory and run
 ```
-    sudo make uninstall-system
-    make uninstall-user
+    sudo make uninstall
 ```
 Now everything left to do is to delete the Wall-E folder with its content.
 
