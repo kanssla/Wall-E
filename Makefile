@@ -16,7 +16,7 @@ config.h:
 all: walle getmonitor
 
 walle: walle.c getmonitor.o 
-	$(CC) $(CFLAGS)  cw.c getmonitor.o -o cw -lX11 -lXrandr
+	$(CC) $(CFLAGS)  walle.c getmonitor.o -o walle -lX11 -lXrandr
 
 getmonitor.o: getmonitor.c 
 	$(CC) $(CFLAGS) -c getmonitor.c -o getmonitor.o -lX11 -lXrandr
@@ -27,7 +27,7 @@ getmonitor: getmon.c getmonitor.o
 clean:
 	rm getmonitor.o
 	rm getmonitor
-	rm cw
+	rm walle
 
 install: all
 	@if [ ! -f config.h ]; then \
@@ -35,7 +35,7 @@ install: all
 		exit 1; \
 	fi
 	cp getmonitor $(DESTDIR)$(PREFIX)/bin/
-	cp cw $(DESTDIR)$(PREFIX)/bin/
+	cp walle $(DESTDIR)$(PREFIX)/bin/
 
 
 uninstall: 
