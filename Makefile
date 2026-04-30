@@ -13,9 +13,9 @@ config.h:
 	echo 'static const char configpath[] = "$(HOME)/.config/cw/";' > config.h
 	echo 'static const char wallpaperspath[] = "$(HOME)/Documents/wallpapers/";' >> config.h
 
-all: cw getmonitor
+all: walle getmonitor
 
-cw: cw.c getmonitor.o 
+walle: walle.c getmonitor.o 
 	$(CC) $(CFLAGS)  cw.c getmonitor.o -o cw -lX11 -lXrandr
 
 getmonitor.o: getmonitor.c 
