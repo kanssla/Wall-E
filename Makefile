@@ -40,5 +40,5 @@ install: all
 
 uninstall: 
 	rm $(DESTDIR)$(PREFIX)/bin/getmonitor
-	rm $(DESTDIR)$(PREFIX)/bin/cw
+	rm $(DESTDIR)$(PREFIX)/bin/walle
 
