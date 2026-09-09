@@ -5,12 +5,12 @@ DESTDIR ?=
 
 .PHONY: all clean install prereq uninstall
 prereq: config.h
-	mkdir -p $(HOME)/.config/cw/
+	mkdir -p $(HOME)/.config/walle/
 	mkdir -p $(HOME)/Documents/wallpapers/
 	cp wallpaper.jpg $(HOME)/Documents/wallpapers/
 
 config.h:
-	echo 'static const char configpath[] = "$(HOME)/.config/cw/";' > config.h
+	echo 'static const char configpath[] = "$(HOME)/.config/walle/";' > config.h
 	echo 'static const char wallpaperspath[] = "$(HOME)/Documents/wallpapers/";' >> config.h
 
 all: walle getmonitor
